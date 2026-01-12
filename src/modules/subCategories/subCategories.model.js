@@ -11,7 +11,7 @@ const categorySchema = new mongoose.Schema({
         required: false
     },
     // This field links a subcategory to its parent
-    parentCategory: {
+    categoryId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category', // Reference to the Category model name 
         required: true

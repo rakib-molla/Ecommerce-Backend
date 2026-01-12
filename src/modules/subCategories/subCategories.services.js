@@ -1,7 +1,7 @@
 import SubCategoryModel from "./subCategories.model.js";
 
 const getAllSubCategoriesService = async()=>{
-    const result = await SubCategoryModel.find({}).lean().populate('parentCategory', 'name');
+    const result = await SubCategoryModel.find({}).lean().populate('categoryId', 'name');
     return result;
 }
 
