@@ -2,6 +2,7 @@ import ApiResponse from "../../utils/ApiResponse.js";
 import ErrorHandler from "../../utils/ErrorHandler.js";
 import { getCache, removeCache, setCache } from "../../utils/redisCache.helper.js";
 import { userServices } from "./user.services.js";
+import bcrypt from 'bcrypt';
 
 const getAllUsersControllers = async (req, res, next) => {
     try {
@@ -31,21 +32,26 @@ const getAllUsersControllers = async (req, res, next) => {
 
 const createUserControllers = async (req, res, next) => {
     try {
-
-        const user = await userServices.createUserServices(req.body);
-
-        // Invalidate Cache when user is created
-        await removeCache('users_data');
+        
+        const { password } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = await userServices.createUserServices({ ...req.body, password: hashedPassword });
+        // await removeCache('users_data');
 
         if (!user) {
             return next(new ErrorHandler("User creation failed", 400));
         }
+
         return res.status(201).json(
-            new ApiResponse(201, "User created successfully", { id: user._id, name: user.name, email: user.email })
+            new ApiResponse(201, "User created successfully", { 
+                id: user._id, 
+                name: user.name, 
+                email: user.email 
+            })
         );
 
     } catch (error) {
-        next(error);
+        next(error); 
     }
 }
 

@@ -35,7 +35,6 @@ const getAllUserServices = async (page = 1, limit = 20, searchTerm = "") => {
 };
 
 const createUserServices = async (data) => {
-    // Logic to create a new user in the database
     const result = await UserModel.create(data);
     return result;
 }
