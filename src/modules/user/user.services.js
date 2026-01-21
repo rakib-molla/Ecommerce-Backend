@@ -1,4 +1,6 @@
+import bcrypt from 'bcrypt';
 import UserModel from "./user.model.js";
+import { generateToken } from '../../utils/generateToken.js';
 
 const getAllUserServices = async (page = 1, limit = 20, searchTerm = "") => {
     
@@ -39,8 +41,34 @@ const createUserServices = async (data) => {
     return result;
 }
 
+// Function-er parameter theke curly braces {} soriye din
+const loginUserServices = async (email, password) => { 
+    // 1. User find 
+    const user = await UserModel.findOne({ email }).select('+password'); 
+    
+    if (!user) {
+        throw new Error('Invalid email or password');
+    }
+
+    // 2. Password match 
+    const isMatch = await bcrypt.compare(password, user.password);
+    
+    if (!isMatch) {
+        throw new Error('Invalid email or password');
+    }
+
+    // 3. Data return
+    return {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        token: generateToken(user._id)
+    };
+};
 
 export const userServices = {
     getAllUserServices,
-    createUserServices
+    createUserServices,
+    loginUserServices
 };

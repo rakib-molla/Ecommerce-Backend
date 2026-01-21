@@ -8,5 +8,6 @@ export const config = {
   maxRequestsPerMinute: process.env.MAX_REQUESTS_PER_MINUTE,
   redisUrl: process.env.REDIS_URL,
   node_env: process.env.NODE_ENV,
-  // jwtSecret: process.env.JWT_SECRET,
+  jwtSecret: process.env.JWT_SECRET,
+  jwtExpire: process.env.JWT_EXPIRE,
 };

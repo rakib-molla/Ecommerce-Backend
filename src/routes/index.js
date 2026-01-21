@@ -1,5 +1,4 @@
 import express from 'express';
-// import { userRoutes } from '../modules/user/user.route.js';
 import userRouter from '../modules/user/user.route.js';
 import getHealthStatus from '../modules/health/health.controller.js';
 import categoryRouter from '../modules/categories/categories.route.js';

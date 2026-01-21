@@ -55,7 +55,28 @@ const createUserControllers = async (req, res, next) => {
     }
 }
 
+const loginUserControllers = async(req, res, next)=>{
+    try {
+        const { email, password } = req.body;
+        console.log("Input Data:", email, password);
+
+        if(!email || !password){
+             return next(new ErrorHandler("Please provide email and password", 400));
+        }
+        const result = await userServices.loginUserServices(email, password);
+
+        return res.status(200).json(
+            new ApiResponse(201, "User Login Successfully", { 
+                result
+            })
+        );
+    } catch (error) {
+        next(error); 
+    }
+}
+
 export const userControllers = {
     getAllUsersControllers,
-    createUserControllers
+    createUserControllers,
+    loginUserControllers
 };
