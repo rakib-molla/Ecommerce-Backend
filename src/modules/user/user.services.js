@@ -41,7 +41,7 @@ const createUserServices = async (data) => {
     return result;
 }
 
-// Function-er parameter theke curly braces {} soriye din
+
 const loginUserServices = async (email, password) => { 
     // 1. User find 
     const user = await UserModel.findOne({ email }).select('+password'); 
